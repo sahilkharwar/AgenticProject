@@ -1,93 +1,260 @@
 import streamlit as st
 
-st.title("AI Health Monitoring System")
+# ==========================
+# START SCHEDULER ONCE
+# ==========================
 
-page = st.sidebar.selectbox(
-    "Menu",
-    ["Dashboard", "User Profile", "Medication Tracker", "Fitness Tracker", "AI Assistant"]
+if "scheduler_started" not in st.session_state:
+    import scheduler
+    st.session_state["scheduler_started"] = True
+
+# ==========================
+# PAGE CONFIG
+# ==========================
+
+st.set_page_config(
+    page_title="Health Monitoring System",
+    page_icon="🏥",
+    layout="wide"
 )
 
-if page == "Dashboard":
+# ==========================
+# GLOBAL UI STYLING
+# ==========================
 
-    st.header("Health Overview")
+st.markdown(
+    """
+<style>
 
-    col1, col2, col3 = st.columns(3)
+/* ==========================
+   SIDEBAR
+========================== */
 
-    col1.metric("Steps Today", "6,200", "500")
-    col2.metric("Calories Burned", "350", "40")
-    col3.metric("Sleep Hours", "7.5", "0.5")
-elif page == "User Profile":
-
-    st.header("Create User Profile")
-
-    name = st.text_input("Name")
-    age = st.number_input("Age")
-    height = st.number_input("Height")
-    weight = st.number_input("Weight")
-
-    if st.button("Save Profile"):
-        st.success("Profile saved successfully")
-elif page == "Medication Tracker":
-
-    st.header("Medication Tracker")
-
-    medicine = st.text_input("Medicine Name")
-    dosage = st.text_input("Dosage")
-    time = st.text_input("Time")
-
-    if st.button("Add Medication"):
-        st.success("Medication added")
-elif page == "Fitness Tracker":
-
-    st.header("Fitness Tracker")
-
-    steps = st.number_input("Steps")
-    calories = st.number_input("Calories")
-
-    if st.button("Save Fitness Data"):
-        st.success("Fitness data saved")
-elif page == "AI Assistant":
-
-    st.header("AI Health Assistant")
-
-    question = st.text_input("Ask a health question")
-
-    if st.button("Ask"):
-        st.write("AI response will appear here")
-
-
-import pandas as pd
-import plotly.express as px
-
-data = {
-    "Day": ["Mon", "Tue", "Wed", "Thu", "Fri"],
-    "Steps": [4000, 6500, 7200, 5000, 8100]
+[data-testid="stSidebar"] {
+    background: linear-gradient(
+        180deg,
+        #0F172A,
+        #111827
+    );
 }
 
-df = pd.DataFrame(data)
+/* ALL NAV ITEMS */
 
-fig = px.line(df, x="Day", y="Steps", title="Weekly Step Count")
+[data-testid="stSidebarNav"] * {
+    color: white !important;
+    opacity: 1 !important;
+}
 
-st.plotly_chart(fig)
+/* NAVIGATION LINKS */
 
-from database import fitness_collection
+[data-testid="stSidebarNav"] a {
+    border-radius: 12px;
+    margin-bottom: 6px;
+    transition: all 0.2s ease;
+    color: white !important;
+}
 
-fitness_data = list(fitness_collection.find())
+/* HOVER */
 
-for item in fitness_data:
-    st.write(
-        "Steps:", item.get("steps"),
-        "Calories:", item.get("calories")
+[data-testid="stSidebarNav"] a:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+/* ACTIVE PAGE */
+
+[data-testid="stSidebarNav"] a[aria-current="page"] {
+    background: rgba(255,255,255,0.15) !important;
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+}
+
+/* KEEP ICONS + TEXT WHITE */
+
+[data-testid="stSidebarNav"] a,
+[data-testid="stSidebarNav"] a span,
+[data-testid="stSidebarNav"] a p,
+[data-testid="stSidebarNav"] a div {
+    color: white !important;
+    opacity: 1 !important;
+}
+
+/* ==========================
+   LOGOUT BUTTON
+========================== */
+
+[data-testid="stSidebar"] .stButton > button {
+    background: linear-gradient(
+        135deg,
+        #DC143C,
+        #DC2626
+    );
+    color: white;
+    border: none;
+    border-radius: 12px;
+    height: 45px;
+    font-weight: 600;
+}
+
+[data-testid="stSidebar"] .stButton > button:hover {
+    background: #B91C1C;
+    color: white;
+}
+
+/* ==========================
+   MAIN AREA
+========================== */
+
+.main {
+    background: linear-gradient(
+        135deg,
+        #F0FDF4 0%,
+        #ECFDF5 50%,
+        #EFF6FF 100%
+    );
+}
+
+/* ==========================
+   METRIC CONTAINERS
+========================== */
+
+[data-testid="metric-container"] {
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.3);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    padding: 15px;
+}
+
+</style>
+""",
+    unsafe_allow_html=True
+)
+
+# ==========================
+# PUBLIC PAGES
+# ==========================
+
+login_page = st.Page(
+    "pages/Login.py",
+    title="Login",
+    icon="🔑",
+    default=True
+)
+
+signup_page = st.Page(
+    "pages/Signup.py",
+    title="Signup",
+    icon="📝"
+)
+
+# ==========================
+# PRIVATE PAGES
+# ==========================
+
+dashboard_page = st.Page(
+    "pages/Dashboard.py",
+    title="Dashboard",
+    icon="🏠",
+    default=True
+)
+
+profile_page = st.Page(
+    "pages/User.py",
+    title="Profile",
+    icon="👤"
+)
+
+medication_page = st.Page(
+    "pages/Medication.py",
+    title="Medication",
+    icon="💊"
+)
+
+fitness_page = st.Page(
+    "pages/Fitness.py",
+    title="Fitness",
+    icon="🏃"
+)
+
+ai_page = st.Page(
+    "pages/AI_assitant.py",
+    title="AI Assistant",
+    icon="🤖"
+)
+
+reports_page = st.Page(
+    "pages/Reports.py",
+    title="Reports",
+    icon="📊"
+)
+
+# ==========================
+# AUTHENTICATED NAVIGATION
+# ==========================
+
+if st.session_state.get("logged_in"):
+
+    username = st.session_state.get(
+        "username",
+        "User"
     )
 
-from database import med_collection
+    st.sidebar.markdown(
+        f"""
+        <div style="
+            background:rgba(16,185,129,0.15);
+            padding:15px;
+            border-radius:15px;
+            text-align:center;
+            margin-bottom:15px;
+            color:white;
+            font-weight:600;
+            font-size:16px;
+        ">
+            👤 {username}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
-st.subheader("Upcoming Medications")
+    st.sidebar.divider()
 
-meds = list(med_collection.find())
+    if st.sidebar.button(
+        "🚪 Logout",
+        use_container_width=True
+    ):
+        st.session_state.clear()
+        st.rerun()
 
-for m in meds:
-    st.write(m.get("medicine"), "-", m.get("time"))
-    
-st.divider()
-st.subheader("Fitness Trends")
+    pg = st.navigation(
+        [
+            dashboard_page,
+            profile_page,
+            medication_page,
+            fitness_page,
+            ai_page,
+            reports_page
+        ]
+    )
+
+# ==========================
+# PUBLIC NAVIGATION
+# ==========================
+
+else:
+
+    pg = st.navigation(
+        [
+            login_page,
+            signup_page
+        ],
+        position="hidden"
+    )
+
+# ==========================
+# RUN APP
+# ==========================
+
+pg.run()

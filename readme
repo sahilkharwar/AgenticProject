@@ -1,0 +1,219 @@
+# 🏥 Health Monitoring System
+
+A modern Health Monitoring System built using Streamlit, Python, MongoDB, and Google Gemini AI for personalized health insights and recommendations.
+
+## Features
+
+### 👤 User Management
+
+* User Registration & Login
+* Profile Management
+* BMI Calculation
+
+### 💊 Medication Tracking
+
+* Add and manage medications
+* Schedule medication reminders
+* Track medication adherence
+
+### 🏃 Fitness Tracking
+
+* Activity Tracking
+* Step Monitoring
+* Calories Burned Tracking
+* Daily Goal Management
+
+### 📊 Health Dashboard
+
+* Health Score Analysis
+* Goal Progress Tracking
+* Personalized Recommendations
+* Health Assessment
+
+### 🤖 AI Health Assistant
+
+* BMI Analysis
+* Fitness Insights
+* Health Summary
+* Medication Review
+* AI-Powered Recommendations
+
+### 📈 Reports
+
+* Daily Reports
+* Activity Reports
+* Health Analytics
+* Progress Visualization
+
+---
+
+## Technology Stack
+
+### Frontend
+
+* Streamlit
+
+### Backend
+
+* Python
+
+### Database
+
+* MongoDB Atlas
+* PyMongo
+
+### AI Integration
+
+* Google Gemini API
+
+### Visualization
+
+* Plotly
+
+### Scheduling
+
+* APScheduler
+
+---
+
+## Installation
+
+### Clone Repository
+
+```bash
+git clone <repository-url>
+cd HealthMonitoringSystem
+```
+
+### Create Virtual Environment
+
+```bash
+python -m venv venv
+```
+
+Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+Linux/Mac:
+
+```bash
+source venv/bin/activate
+```
+
+### Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Environment Variables
+
+Create a file named:
+
+```text
+.env
+```
+
+Add:
+
+```env
+MONGO_URI=your_mongodb_connection_string
+GEMINI_API_KEY=your_gemini_api_key
+```
+
+---
+
+## Running the Project
+
+```bash
+streamlit run app.py
+```
+
+Application URL:
+
+```text
+http://localhost:8501
+```
+
+---
+
+## Database Configuration
+
+The project uses MongoDB Atlas through PyMongo.
+
+Example:
+
+```python
+from pymongo import MongoClient
+
+client = MongoClient(MONGO_URI)
+db = client["health_monitoring_system"]
+```
+
+Collections:
+
+* users
+* medications
+* fitness_data
+* health_reports
+
+---
+
+## AI Configuration
+
+Generate a Gemini API key from:
+
+https://aistudio.google.com/
+
+Configure the API key in the `.env` file.
+
+---
+
+## Project Structure
+
+```text
+HealthMonitoringSystem/
+
+│ app.py
+│ database.py
+│ scheduler.py
+│ requirements.txt
+│ README.md
+│ .env
+
+├── pages
+│   ├── Dashboard.py
+│   ├── User.py
+│   ├── Medication.py
+│   ├── Fitness.py
+│   ├── AI_assistant.py
+│   └── Reports.py
+
+├── assets
+├── data
+└── screenshots
+```
+
+---
+
+## Future Enhancements
+
+* Dark/Light Theme Toggle
+* Wearable Device Integration
+* Mobile Application
+* Predictive Health Analytics
+* Multi-user Dashboard
+
+---
+
+## Author
+
+Sahil Kharwar
+
+Health Monitoring System
+Final Year Project
