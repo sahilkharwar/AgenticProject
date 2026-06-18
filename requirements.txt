@@ -1,0 +1,10 @@
+streamlit
+pandas
+plotly
+pymongo
+bcrypt
+google-generativeai
+apscheduler
+numpy
+matplotlib
+python-dotenv
